@@ -81,28 +81,36 @@ class WordAnalysis:
         except Exception as e:
             return e
         
-    def displayplots(self,type,data_frame,x,y,color):
+    def displayplots(self,type,x,y,data_frame=None,color=None,title=None,xlabel=None,ylabel=None):
 
         try:
 
             if type == 'bar':
 
-                fig = px.bar(data_frame=data_frame , x=x,y=y , color=color)
+                fig = px.bar(data_frame=data_frame , x=x,y=y , color=color,title=title)
+                fig.update_xaxes(title_text=xlabel)
+                fig.update_yaxes(title_text=ylabel)
                 fig.show()
 
             elif type=='line':
 
-                fig = px.line(data_frame=data_frame , x=x,y=y , color=color)
+                fig = px.line(data_frame=data_frame , x=x,y=y , color=color,title=title)
+                fig.update_xaxes(title_text=xlabel)
+                fig.update_yaxes(title_text=ylabel)
                 fig.show()
 
             elif type == 'scatter':
 
-                fig = px.scatter(data_frame=data_frame , x=x,y=y , color=color)
+                fig = px.scatter(data_frame=data_frame , x=x,y=y , color=color,title=title)
+                fig.update_yaxes(title_text=xlabel)
+                fig.update_yaxes(title_text=ylabel)
                 fig.show()
 
             elif type=='pie':
 
-                fig = px.pie(data_frame=data_frame , names=x , values=y , color=color)
+                fig = px.pie(data_frame=data_frame , names=x , values=y , color=color,title=title)
+                fig.update_xaxes(title_text=xlabel)
+                fig.update_xaxes(title_text=ylabel)
                 fig.show()
 
         except Exception as e:
@@ -111,9 +119,9 @@ class WordAnalysis:
         
 class PhraseAnalysis:
 
-    def __init__(self,base_file):
+    def __init__(self,base_file,modelname=None):
         
-        self.phrase = FilterData(base_file)
+        self.phrase = FilterData(base_file,modelname)
         
     def null_values(self,column_name):
 
@@ -178,6 +186,7 @@ class PhraseAnalysis:
         except Exception as e:
 
             return e
+            
         
     def DataEntityClassification(self,text):
 
@@ -327,8 +336,6 @@ class ClassificationModelTuning:
         except Exception as e:
 
             return e
-        
-   
 
 if __name__ == '__main__':
 

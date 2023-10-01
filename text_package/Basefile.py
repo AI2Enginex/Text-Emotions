@@ -24,10 +24,16 @@ class Load_file:
         self.word_count = list()
         self.emotions_data = dict()
         self.generalsearch = list()
+
+    def removenull(self):
+
+        self.df = self.df.dropna()
+        return self.df
        
     def process_data(self,column_name):
-
-       return [re.sub('[^a-zA-Z]',' ' , message) for message in self.df[column_name].str.lower()]
+    
+       self.df_text = self.removenull()
+       return [re.sub('[^a-zA-Z]',' ' , message) for message in self.df_text[column_name].str.lower()]
     
     def gentext(self,column_name):
 
@@ -178,11 +184,15 @@ class TextAnalysis(Load_file):
     
 class FilterData(Load_file):
 
-    def __init__(self, base_file):
+    def __init__(self, base_file,model_name=None):
         
         super().__init__(base_file)
+
         self.file = self.df
-        self.ner = spacy.load('en_core_web_lg')
+
+        if not model_name == None:
+            
+            self.ner = spacy.load(model_name)
 
     
     def check_null_values(self,feature_name):
